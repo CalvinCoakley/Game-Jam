@@ -2,19 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-internal class sceneReturn : MonoBehaviour
+public class sceneReturn : MonoBehaviour
 {
     private List<string> sceneHistory = new List<string>();
+    public string[] nextRoom;
+    string randomizedRoom;
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
+        int randomIndex = Random.Range(0, nextRoom.Length);
+        string randomRoom = nextRoom[randomIndex];
+        randomizedRoom = randomRoom;
     }
 
     // Update is called once per frame
-    void LoadScene(string newScene)
+    private void Update()
     {
-        sceneHistory.Add(newScene);
+        int randomIndex = Random.Range(0, nextRoom.Length);
+        string randomRoom = nextRoom[randomIndex];
+        randomizedRoom = randomRoom;
+    }
+    public void LoadScene()
+    {
+        sceneHistory.Add(randomizedRoom);
+        SceneManager.LoadSceneAsync(randomizedRoom, LoadSceneMode.Single);
     }
     public bool PreviousScene()
     {
@@ -23,7 +35,7 @@ internal class sceneReturn : MonoBehaviour
         {
             returnValue = true;
             sceneHistory.RemoveAt(sceneHistory.Count - 1);
-            SceneManager.LoadScene(sceneHistory[sceneHistory.Count - 1]);
+            SceneManager.LoadSceneAsync(sceneHistory[sceneHistory.Count - 1]);
         }
         return returnValue;
     }

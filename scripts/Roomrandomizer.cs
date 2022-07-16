@@ -5,32 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class Roomrandomizer : MonoBehaviour
 {
-    [SerializeField] bool returnDoor;
-    public string[] nextRoom;
-    string randomizedRoom;
+    public sceneReturn nextRoom;
+    [SerializeField] bool returndoor;
     // Start is called before the first frame update
     void Start()
     {
-        int randomIndex = Random.Range(0, nextRoom.Length);
-        string randomRoom = nextRoom[randomIndex];
-        randomizedRoom = randomRoom;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
        
+        GameObject Return = GameObject.FindGameObjectWithTag("returnDoor");
+        nextRoom = Return.GetComponent<sceneReturn>();
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (returnDoor == true)
+        if (returndoor == true)
         {
-            //GetComponent<sceneReturn>();
+            nextRoom.PreviousScene();
         }
         else
         {
-            SceneManager.LoadScene(randomizedRoom, LoadSceneMode.Single);
+            nextRoom.LoadScene();
         }
     }
 }
